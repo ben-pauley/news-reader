@@ -5,7 +5,9 @@ const Nav = () => {
     <nav className="nav">
       <h1>News Reader</h1>
       <div className="links" style={{ marginBottom: "20px" }}>
-        <Link to="/">Home</Link>
+        <Link to="/" style={{ marginRight: "10px" }}>
+          Home
+        </Link>
         <Link to="/bookmarks">Bookmarks</Link>
       </div>
     </nav>

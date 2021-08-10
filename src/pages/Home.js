@@ -1,30 +1,80 @@
 import React, { useState } from "react";
 import "./Home.css";
+import moment from "moment";
 
 function Home() {
-  const [articles, setArticles] = useState([]);
+  const [sportsArticles, setSportsArticles] = useState([]);
+  const [marketingArticles, setMarketingArticles] = useState([]);
+  const [environmentArticles, setEnvironmentArticles] = useState([]);
 
-  let url = "https://anderspink.com/code-test/data/sports.json";
+  let sportsUrl = "https://anderspink.com/code-test/data/sports.json";
 
-  fetch(url)
+  fetch(sportsUrl)
     .then((res) => res.json())
     .then((out) => {
-      setArticles(out);
+      setSportsArticles(out);
     })
     .catch((err) => console.log(err));
 
-  if (articles !== []) {
+  let marketingUrl = "https://anderspink.com/code-test/data/marketing.json";
+
+  fetch(marketingUrl)
+    .then((res) => res.json())
+    .then((out) => {
+      setMarketingArticles(out);
+    })
+    .catch((err) => console.log(err));
+
+  let environmentUrl = "https://anderspink.com/code-test/data/environment.json";
+
+  fetch(environmentUrl)
+    .then((res) => res.json())
+    .then((out) => {
+      setEnvironmentArticles(out);
+    })
+    .catch((err) => console.log(err));
+
+  if (
+    sportsArticles === [] ||
+    marketingArticles === [] ||
+    environmentArticles === []
+  ) {
+    return <div>Error loading articles</div>;
+  } else {
     return (
       <div className="grid-container">
-        {articles.map((article) => (
+        {sportsArticles.map((article) => (
           <div className="grid-child" key={article.id}>
-            <h2>{article.title}</h2>
+            <img src={article.image} alt={article.title}></img>
+            <h3>{article.title}</h3>
+            <a href={article.domain}>{article.domain}</a>
+            <p>{moment(article.date).fromNow()}</p>
+            <p>{article.content}</p>
+            <p>Category: Sports</p>
+          </div>
+        ))}
+        {marketingArticles.map((article) => (
+          <div className="grid-child" key={article.id}>
+            <img src={article.image} alt={article.title}></img>
+            <h3>{article.title}</h3>
+            <a href={article.domain}>{article.domain}</a>
+            <p>{moment(article.date).fromNow()}</p>
+            <p>{article.content}</p>
+            <p>Category: Marketing</p>
+          </div>
+        ))}
+        {environmentArticles.map((article) => (
+          <div className="grid-child" key={article.id}>
+            <img src={article.image} alt={article.title}></img>
+            <h3>{article.title}</h3>
+            <a href={article.domain}>{article.domain}</a>
+            <p>{moment(article.date).fromNow()}</p>
+            <p>{article.content}</p>
+            <p>Category: Environment</p>
           </div>
         ))}
       </div>
     );
-  } else {
-    return <div>Error loading articles</div>;
   }
 }
 
