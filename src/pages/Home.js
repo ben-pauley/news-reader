@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./Home.css";
 import moment from "moment";
+import { useContext } from "react";
+import { NewsContext } from "../NewsContext";
 
 function Home() {
   const [sportsArticles, setSportsArticles] = useState([]);
@@ -34,6 +36,12 @@ function Home() {
     })
     .catch((err) => console.log(err));
 
+  const { bookmarks, setBookmarks } = useContext(NewsContext);
+
+  const handleSave = (id) => {
+    setBookmarks(bookmarks.push(id));
+  };
+
   if (
     sportsArticles === [] ||
     marketingArticles === [] ||
@@ -51,6 +59,7 @@ function Home() {
             <p>{moment(article.date).fromNow()}</p>
             <p>{article.content}</p>
             <p>Category: Sports</p>
+            <button onClick={() => handleSave(article.id)}>Save article</button>
           </div>
         ))}
         {marketingArticles.map((article) => (
@@ -61,6 +70,7 @@ function Home() {
             <p>{moment(article.date).fromNow()}</p>
             <p>{article.content}</p>
             <p>Category: Marketing</p>
+            <button onClick={() => handleSave(article.id)}>Save article</button>
           </div>
         ))}
         {environmentArticles.map((article) => (
@@ -71,6 +81,7 @@ function Home() {
             <p>{moment(article.date).fromNow()}</p>
             <p>{article.content}</p>
             <p>Category: Environment</p>
+            <button onClick={() => handleSave(article.id)}>Save article</button>
           </div>
         ))}
       </div>
